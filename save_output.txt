@@ -1,0 +1,417 @@
+sent10	Tuvia Tzafir	Live_In	Israel
+sent27	Lazio	Live_In	Umbria
+sent27	Lazio	Live_In	Italy
+sent27	Lazio	Live_In	Campania province
+sent34	Reagan	Live_In	America
+sent35	Reagan	Live_In	Washington
+sent37	Reagan	Live_In	Iran
+sent37	Reagan	Live_In	America
+sent46	W. Dale Nelson	Live_In	House
+sent50	Nixon	Live_In	Texas
+sent50	Nixon	Live_In	U.S.
+sent52	Ralph K. Winter	Live_In	New York City
+sent52	Kenneth Starr	Live_In	New York City
+sent60	Starr	Live_In	of Columbia
+sent60	William French Smith	Live_In	of Columbia
+sent60	Robert Bork	Live_In	of Columbia
+sent68	Wright	Live_In	Arizona
+sent68	Barry Goldwater	Live_In	Arizona
+sent70	STOCKTON	Live_In	England
+sent70	Michael Minns	Live_In	England
+sent78	James G. Blight	Live_In	Cuba
+sent78	David A. Welch	Live_In	Cuba
+sent83	Kennedy	Live_In	U.S.
+sent88	Aleksander Alekseev	Live_In	Cuba
+sent89	Alekseev	Live_In	Moscow
+sent105	Franca Chlistovsky	Live_In	Brera
+sent105	Franca Chlistovsky	Live_In	Milan
+sent110	Judy Kaye	Live_In	New York Opera Repertory Theater
+sent110	Abbie	Live_In	New York Opera Repertory Theater
+sent118	Leigh Gibbs Gore	Live_In	New York Opera Repertory Theater
+sent119	Composer Thomas	Live_In	Chisholm
+sent119	Composer Thomas	Live_In	Minn
+sent137	Wells	Live_In	Davisville
+sent137	Wells	Live_In	R.I.
+sent137	Wells	Live_In	Texas
+sent139	Andrews Lock	Live_In	Henry County
+sent139	Andrews Lock	Live_In	Ala.
+sent142	Andrews Lock	Live_In	Early County
+sent142	Andrews Lock	Live_In	Ga.
+sent161	Duchess of York	Live_In	Britain
+sent161	Duchess of York	Live_In	Philippines
+sent161	Imelda Marcos	Live_In	Britain
+sent161	Imelda Marcos	Live_In	Philippines
+sent161	Blackwell	Live_In	Britain
+sent161	Blackwell	Live_In	Philippines
+sent161	Richard Sylvan Selzer	Live_In	Britain
+sent161	Richard Sylvan Selzer	Live_In	Philippines
+sent173	Hoffman	Live_In	Fresno
+sent173	Brent	Live_In	Fresno
+sent188	June Anderson	Live_In	Moscow
+sent188	June Anderson	Live_In	Bolshoi Ballet
+sent188	June Anderson	Live_In	Moscow
+sent188	June Anderson	Live_In	Leningrad
+sent188	June Anderson	Live_In	Kirov Ballet
+sent188	June Anderson	Live_In	Yerevan
+sent188	June Anderson	Live_In	U.S.
+sent188	Carol Vaness	Live_In	Moscow
+sent188	Carol Vaness	Live_In	Bolshoi Ballet
+sent188	Carol Vaness	Live_In	Moscow
+sent188	Carol Vaness	Live_In	Leningrad
+sent188	Carol Vaness	Live_In	Kirov Ballet
+sent188	Carol Vaness	Live_In	Yerevan
+sent188	Carol Vaness	Live_In	U.S.
+sent195	Michael D. Papagiannis	Live_In	Earth
+sent197	Ostined	Live_In	Liberec
+sent197	Ostined	Live_In	Czechoslovakia
+sent197	Ostined	Live_In	Gmund
+sent197	Ostined	Live_In	Austria
+sent197	Lesny	Live_In	Liberec
+sent197	Lesny	Live_In	Czechoslovakia
+sent197	Lesny	Live_In	Gmund
+sent197	Lesny	Live_In	Austria
+sent207	Johnny Paul Penry	Live_In	Texas
+sent208	Charles A. Palmer	Live_In	Texas
+sent208	Penry	Live_In	Texas
+sent210	Penry	Live_In	Livingston
+sent210	Penry	Live_In	Texas
+sent210	Pamela Moseley Carpenter	Live_In	Livingston
+sent210	Pamela Moseley Carpenter	Live_In	Texas
+sent278	Herbert S. Okun	Live_In	U.S.
+sent278	Herbert S. Okun	Live_In	Washington
+sent281	Vernon A. Walters	Live_In	U.S.
+sent282	Ali Sunni Muntasser	Live_In	Libya
+sent285	Yves Fortier	Live_In	Canada
+sent286	M. Pierre Brochand	Live_In	France
+sent302	Reagan	Live_In	U.S.
+sent327	Bob Boyd	Live_In	Chattanooga
+sent327	Bob Boyd	Live_In	Tenn.
+sent372	Gale	Live_In	California
+sent372	Gale	Live_In	Ontario
+sent372	Gale	Live_In	El Toro
+sent410	Sohn Ho Young	Live_In	New York City
+sent412	Sohn	Live_In	New Jersey
+sent414	Derwinski	Live_In	Chicago
+sent420	Derwinski	Live_In	Koreagate
+sent420	Sohn	Live_In	Koreagate
+sent437	Andy Lipkis	Live_In	Southern California
+sent470	Jose Antonio Urutigoechea	Live_In	Madrid
+sent477	Felipe Gonzalez	Live_In	Spain
+sent490	Judith C. Toth	Live_In	Maryland
+sent493	Toth	Live_In	Germantown
+sent510	William O ' Brien III	Live_In	Madison County
+sent510	William O ' Brien III	Live_In	North Carolina
+sent510	Timothy Jacobs	Live_In	Madison County
+sent510	Timothy Jacobs	Live_In	North Carolina
+sent511	Jacobs	Live_In	North Carolina
+sent511	Cuomo	Live_In	North Carolina
+sent511	Jim Martin	Live_In	North Carolina
+sent511	Jacobs	Live_In	North Carolina
+sent516	Jacobs	Live_In	Robeson County
+sent516	Jacobs	Live_In	N.C.
+sent517	Eddie Hatcher	Live_In	Lumberton
+sent517	Eddie Hatcher	Live_In	N.C.
+sent521	Hatcher	Live_In	Onondaga
+sent521	Hatcher	Live_In	Idaho
+sent536	Corbin Bernsen	Live_In	L.A.
+sent536	Kate Mulgrew	Live_In	L.A.
+sent541	Albert O. Harjula	Live_In	Thomaston
+sent541	Paul Fournier	Live_In	Thomaston
+sent542	Daniel Sullivan	Live_In	Boothbay
+sent542	Fournier	Live_In	Boothbay
+sent543	Brian Michaud	Live_In	Millinocket
+sent561	Nixon	Live_In	U.S.
+sent561	Bush	Live_In	U.S.
+sent563	Reagan	Live_In	New York
+sent563	Ralph K. Winter	Live_In	New York
+sent563	Kenneth Starr	Live_In	New York
+sent565	Wright	Live_In	Oval Office
+sent565	Nixon	Live_In	Oval Office
+sent589	Susanna Petrosyan	Live_In	Leninakan
+sent589	Gayaney	Live_In	Leninakan
+sent643	Redman	Live_In	Moscow
+sent652	J.H. Berman	Live_In	Port Nolloth
+sent665	Mary	Live_In	Rock Hill
+sent748	Alain Farley	Live_In	Montreal
+sent755	David Graham	Live_In	Houston
+sent756	Paul Newman	Live_In	Louisiana
+sent756	Earl Long	Live_In	Louisiana
+sent770	Fred Coe	Live_In	Nashville
+sent780	Sophie Masloff	Live_In	Pittsburgh
+sent780	Pat Sajak Show	Live_In	Pittsburgh
+sent787	Yasser Arafat	Live_In	West Bank
+sent787	Yasser Arafat	Live_In	Gaza Strip
+sent790	Gadhafi	Live_In	U.S.
+sent793	Chedli Klibi	Live_In	U.S.
+sent816	Dominique Beuff	Live_In	Khartoum
+sent817	Reith Chuol	Live_In	the Upper Nile
+sent830	Abrams	Live_In	America
+sent830	Bush	Live_In	America
+sent843	Parks	Live_In	Montgomery
+sent843	Parks	Live_In	Ala.
+sent851	Spencer Christian	Live_In	America
+sent857	Norodom Sihanouk	Live_In	the Soviet Union
+sent857	Norodom Sihanouk	Live_In	Thailand
+sent857	Sihanouk	Live_In	the Soviet Union
+sent857	Sihanouk	Live_In	Thailand
+sent857	Norodom Ranariddh	Live_In	the Soviet Union
+sent857	Norodom Ranariddh	Live_In	Thailand
+sent860	Li Zhaoxing	Live_In	Beijing
+sent860	Li Zhaoxing	Live_In	China
+sent860	Li Zhaoxing	Live_In	Vietnam
+sent862	Eduard A. Shevardnadze	Live_In	China
+sent871	Li	Live_In	Beijing
+sent871	Li	Live_In	China
+sent896	Walesa	Live_In	Shipyard
+sent896	Walesa	Live_In	Gdansk
+sent902	Bruce Jonasson	Live_In	Montreal
+sent902	Bruce Jonasson	Live_In	Ottawa
+sent934	Robert Bourassa	Live_In	Canada
+sent934	Robert Bourassa	Live_In	Quebec
+sent934	Robert Bourassa	Live_In	Quebec
+sent952	Jake Garn	Live_In	Utah
+sent952	Jake Garn	Live_In	D - Fla
+sent952	Bill Nelson	Live_In	Utah
+sent952	Bill Nelson	Live_In	D - Fla
+sent953	Rodolfo Neri Vela	Live_In	Sultan Al - Saud of Saudi Arabia
+sent955	Dan Quayle 's	Live_In	Caracas
+sent955	Dan Quayle 's	Live_In	Venezuela
+sent955	Carlos Andres Perez 's	Live_In	Caracas
+sent955	Carlos Andres Perez 's	Live_In	Venezuela
+sent955	Bush	Live_In	Caracas
+sent955	Bush	Live_In	Venezuela
+sent961	Psacharapoulos	Live_In	New York City
+sent961	Jean Hackett	Live_In	New York City
+sent962	Psacharopoulos	Live_In	Athens
+sent962	Psacharopoulos	Live_In	the United States
+sent966	Sweet Bird	Live_In	Broadway
+sent966	Sweet Bird	Live_In	Toronto
+sent966	Sweet Bird	Live_In	Canada
+sent966	Sweet Bird	Live_In	Williamstown
+sent1016	Lou Ray	Live_In	Fontana
+sent1019	Lance Davis	Live_In	Ontario
+sent1022	Hugh Madlock	Live_In	Orange County
+sent1026	Kevin Kelly	Live_In	Los Angeles
+sent1026	Kevin Kelly	Live_In	Orange
+sent1028	Denise Garland	Live_In	San Bernardino County
+sent1037	Tiffany	Live_In	Manhattan
+sent1037	William Doyle	Live_In	Manhattan
+sent1040	Maxwell	Live_In	Manhattan
+sent1043	Tavern	Live_In	New York
+sent1043	LeRoy	Live_In	New York
+sent1049	Thomas Viscomi	Live_In	Niagara County
+sent1049	Thomas Viscomi	Live_In	Niagara Falls
+sent1049	Norma Viscomi	Live_In	Niagara County
+sent1049	Norma Viscomi	Live_In	Niagara Falls
+sent1050	Viscomi	Live_In	Niagara Falls
+sent1050	John Hoopsick	Live_In	Niagara Falls
+sent1053	Smith	Live_In	St. Claire Shores
+sent1053	Smith	Live_In	Mich
+sent1054	Leslie Kota	Live_In	Troy
+sent1054	Leslie Kota	Live_In	Mich.
+sent1063	Stacy Lin Bickel	Live_In	Tempe
+sent1063	Stacy Lin Bickel	Live_In	Phoenix
+sent1063	Deborah Sue Tomazin	Live_In	Tempe
+sent1063	Deborah Sue Tomazin	Live_In	Phoenix
+sent1065	Bickel	Live_In	Tempe
+sent1065	Richard Pavese	Live_In	Tempe
+sent1109	Folke Nyberg	Live_In	Seattle
+sent1109	Folke Nyberg	Live_In	Rim
+sent1131	William J. Bennett	Live_In	Chicago
+sent1131	William J. Bennett	Live_In	U.S.
+sent1132	James Thompson	Live_In	Illinois
+sent1132	James Thompson	Live_In	Chicago
+sent1134	Adam Urbanski	Live_In	Rochester
+sent1145	Peter McWalters	Live_In	Rochester
+sent1147	Richard C. Wallace	Live_In	Pittsburgh
+sent1149	Bob Graham	Live_In	Florida
+sent1153	Buddy Roemer	Live_In	Louisiana
+sent1176	Walter R. Mears	Live_In	Washington
+sent1197	Craig Martin	Live_In	Seattle
+sent1200	Fred Farrar	Live_In	Aloha
+sent1200	Fred Farrar	Live_In	Piedmont
+sent1214	Kennedy	Live_In	Cincinnati
+sent1222	Carl Rubin	Live_In	Divencenzo
+sent1222	Carl Rubin	Live_In	U.S.
+sent1228	G. Ernest Tidwell	Live_In	U.S.
+sent1254	Anton Valukas	Live_In	U.S.
+sent1269	Ricardo Camero Cardiel	Live_In	Ciudad Madero
+sent1274	Hernandez Galicia	Live_In	Ciudad Madero
+sent1299	Minox	Live_In	West Germany 's
+sent1299	Leica	Live_In	West Germany 's
+sent1299	Rollei	Live_In	West Germany 's
+sent1306	Minox	Live_In	Netherlands
+sent1306	Robert C. Corduwener	Live_In	Netherlands
+sent1306	Rinn	Live_In	Netherlands
+sent1310	Minox	Live_In	Frankfurt
+sent1310	Minox	Live_In	Giessen
+sent1310	Minox	Live_In	Bezirksparkasse
+sent1311	Minox	Live_In	Leica
+sent1311	Minox	Live_In	Braunschweig
+sent1311	Rollei	Live_In	Leica
+sent1311	Rollei	Live_In	Braunschweig
+sent1336	Guy M. Struve	Live_In	New York
+sent1345	Fred Demler	Live_In	New York
+sent1366	James Cirona	Live_In	San Francisco
+sent1405	Daniel Urquhart	Live_In	Aumsville
+sent1417	Higgins	Live_In	America
+sent1417	Sheik Abdul Karim Obeid	Live_In	America
+sent1417	Higgins	Live_In	America
+sent1417	Higgins	Live_In	America
+sent1417	Hijja	Live_In	America
+sent1434	Hayes Picou	Live_In	Louisiana
+sent1434	Hayes Picou	Live_In	Cameron Parish
+sent1450	John Jamison	Live_In	Galveston
+sent1483	Tucker	Live_In	Washington
+sent1483	Benjamin	Live_In	Washington
+sent1483	Corinne	Live_In	Washington
+sent1496	Epps	Live_In	DeKalb Peachtree Airport
+sent1500	Richard Taylor	Live_In	Atlanta
+sent1501	Neil Estes	Live_In	Atlanta
+sent1505	Epps	Live_In	Trapper Creek
+sent1505	Epps	Live_In	Alaska
+sent1505	Norman Vaughan	Live_In	Trapper Creek
+sent1505	Norman Vaughan	Live_In	Alaska
+sent1523	Say	Live_In	the United States
+sent1523	Say	Live_In	Cadiz
+sent1523	Say	Live_In	Kentucky
+sent1524	Higgins	Live_In	Louisville
+sent1524	Higgins	Live_In	Okolona
+sent1524	Mary Fisher	Live_In	Louisville
+sent1524	Mary Fisher	Live_In	Okolona
+sent1524	Higgins	Live_In	Louisville
+sent1524	Higgins	Live_In	Okolona
+sent1526	Mitch McConnell	Live_In	U.S.
+sent1526	Mitch McConnell	Live_In	Louisville
+sent1526	Higgins	Live_In	U.S.
+sent1526	Higgins	Live_In	Louisville
+sent1534	Lancaster	Live_In	Danville
+sent1534	Lancaster	Live_In	Louisville
+sent1534	Higgins	Live_In	Danville
+sent1534	Higgins	Live_In	Louisville
+sent1557	Richard Kahn	Live_In	Alexandria
+sent1557	Richard Kahn	Live_In	Va.
+sent1558	Robin Woods	Live_In	Washington
+sent1558	Robin Woods	Live_In	D.C.
+sent1558	Woods	Live_In	Washington
+sent1558	Woods	Live_In	D.C.
+sent1612	Tom Van Sant	Live_In	Santa Monica
+sent1632	Gerald Baliles	Live_In	New Hampshire
+sent1632	Gerald Baliles	Live_In	Virginia
+sent1635	Bush	Live_In	Virginia
+sent1635	Sununu	Live_In	Virginia
+sent1635	Baliles	Live_In	Virginia
+sent1637	Celeste	Live_In	Ohio
+sent4590	James Earl Ray	Live_In	Memphis
+sent4590	James Earl Ray	Live_In	Tenn.
+sent4590	Martin Luther King Junior	Live_In	Memphis
+sent4590	Martin Luther King Junior	Live_In	Tenn.
+sent4591	Lee Harvey Oswald	Live_In	Kennedy
+sent4592	Lee Harvey Oswald	Live_In	Kennedy
+sent4592	Lee Harvey Oswald	Live_In	County Administration Building
+sent4593	Lee Harvey Oswald	Live_In	County Administration Building
+sent4593	Kennedy	Live_In	County Administration Building
+sent4596	Martin Luther King Jr.	Live_In	Lebanon
+sent4596	James Earl Ray	Live_In	Lebanon
+sent4597	Ray	Live_In	Tennessee
+sent4597	Ray	Live_In	Brushy Mountain State Prison
+sent4597	Ray	Live_In	King
+sent4599	Sirhan Sirhan	Live_In	New York
+sent4599	Robert F. Kennedy	Live_In	New York
+sent4601	William Leonard Jennings	Live_In	West Yorkshire
+sent4601	Stephen	Live_In	West Yorkshire
+sent4602	Sirhan	Live_In	Soledad Prison
+sent4602	Sirhan	Live_In	California
+sent4602	Kennedy	Live_In	Soledad Prison
+sent4602	Kennedy	Live_In	California
+sent4604	John Wilkes Booth	Live_In	Bowling Green
+sent4604	John Wilkes Booth	Live_In	Va.
+sent4604	Abraham Lincoln	Live_In	Bowling Green
+sent4604	Abraham Lincoln	Live_In	Va.
+sent4609	Sirhan Sirhan	Live_In	Soledad Prison
+sent4609	Kennedy	Live_In	Soledad Prison
+sent4611	Robert F. Kennedy	Live_In	Los Angeles
+sent4611	Sirhan Bishara Sirhan	Live_In	Los Angeles
+sent4612	Sirhan Bishara Sirhan	Live_In	Los Angeles
+sent4612	Kennedy	Live_In	Los Angeles
+sent4613	James Earl Ray	Live_In	London
+sent4613	Martin Luther King Jr	Live_In	London
+sent4614	Oswald	Live_In	Kennedy
+sent4614	Oswald	Live_In	County Administration Building
+sent4615	Edward M. Kennedy	Live_In	Dallas
+sent4615	Lee Harvey Oswald	Live_In	Dallas
+sent4615	John F. Kennedy	Live_In	Dallas
+sent4616	James Earl Ray	Live_In	Tennessee
+sent4616	Martin Luther King Jr.	Live_In	Tennessee
+sent4618	Mark David Chapman	Live_In	New York City
+sent4618	John Lennon	Live_In	New York City
+sent4618	Lennon	Live_In	New York City
+sent4619	Yount	Live_In	Luthersberg
+sent4619	Yount	Live_In	Pa
+sent4619	James Marvin Forsgren	Live_In	Luthersberg
+sent4619	James Marvin Forsgren	Live_In	Pa
+sent4619	Pamela Sue Rimer	Live_In	Luthersberg
+sent4619	Pamela Sue Rimer	Live_In	Pa
+sent4621	John Wilkes Booth	Live_In	Washington
+sent4621	John Wilkes Booth	Live_In	D.C.
+sent4621	Abraham Lincoln	Live_In	Washington
+sent4621	Abraham Lincoln	Live_In	D.C.
+sent4622	James Earl Ray	Live_In	Capitol Hill
+sent4622	Martin Luther King Jr.	Live_In	Capitol Hill
+sent4622	Raoul	Live_In	Capitol Hill
+sent4623	Incan King	Live_In	Peru
+sent4623	Atahualpa	Live_In	Peru
+sent4623	Francisco Pizarro	Live_In	Peru
+sent4624	William McKinley	Live_In	Buffalo
+sent4624	William McKinley	Live_In	N.Y.
+sent4624	Leon Czolgosz	Live_In	Buffalo
+sent4624	Leon Czolgosz	Live_In	N.Y.
+sent4626	Kennedy	Live_In	Dallas
+sent4626	Lee Harvey Oswald	Live_In	Dallas
+sent4627	Lennon	Live_In	New York City
+sent4627	Mark David Chapman	Live_In	New York City
+sent4629	Lennon	Live_In	Dakota
+sent4629	Mark David Chapman	Live_In	Dakota
+sent4630	Lennon	Live_In	Dakota
+sent4630	Mark David Chapman	Live_In	Dakota
+sent4632	Lee Harvey Oswald	Live_In	Dallas
+sent4632	Lee Harvey Oswald	Live_In	Dealey Plaza
+sent4632	Kennedy	Live_In	Dallas
+sent4632	Kennedy	Live_In	Dealey Plaza
+sent4634	Lennon	Live_In	Upper West Side
+sent4634	Mark David Chapman	Live_In	Upper West Side
+sent4635	James Earl Ray	Live_In	Brushy Mountain Penitentiary
+sent4635	James Earl Ray	Live_In	Tennessee
+sent4635	Martin Luther King Jr.	Live_In	Brushy Mountain Penitentiary
+sent4635	Martin Luther King Jr.	Live_In	Tennessee
+sent4635	Anna Sandhu	Live_In	Brushy Mountain Penitentiary
+sent4635	Anna Sandhu	Live_In	Tennessee
+sent4637	Ray	Live_In	Motel
+sent4637	Ray	Live_In	Memphis
+sent4637	King	Live_In	Motel
+sent4637	King	Live_In	Memphis
+sent4641	Herschel Grynszpan	Live_In	Poland
+sent4641	Herschel Grynszpan	Live_In	Paris
+sent4641	Ernst vom Rath	Live_In	Poland
+sent4641	Ernst vom Rath	Live_In	Paris
+sent4643	Lee Harvey Oswald	Live_In	Dallas
+sent4643	John F. Kennedy	Live_In	Dallas
+sent4647	Lee Harvey Oswald	Live_In	Dallas
+sent4647	John F. Kennedy	Live_In	Dallas
+sent4649	Booth	Live_In	Washington
+sent4649	Booth	Live_In	D.C.
+sent4649	Booth	Live_In	Appomattox
+sent4649	Lincoln	Live_In	Washington
+sent4649	Lincoln	Live_In	D.C.
+sent4649	Lincoln	Live_In	Appomattox
+sent4649	Robert E. Lee 's	Live_In	Washington
+sent4649	Robert E. Lee 's	Live_In	D.C.
+sent4649	Robert E. Lee 's	Live_In	Appomattox
+sent4650	Lee	Live_In	Northern Virginia
+sent4650	Booth	Live_In	Northern Virginia
+sent4650	Lincoln	Live_In	Northern Virginia
+sent4650	Tidwell	Live_In	Northern Virginia
+sent4653	Lee Harvey Oswald	Live_In	Texas
+sent4653	John Connally	Live_In	Texas
+sent4653	John F. Kennedy	Live_In	Texas
+sent4654	James Earl Ray	Live_In	Memphis
