@@ -114,6 +114,18 @@ def combine_two_sentences(first,second):
                 first[i] = second[i]
     return first
 
+
+def find_closest_location(all_location, person_location):
+    for i,loc in enumerate(all_location):
+        location_index = loc[1]
+        if i == 0 or abs(location_index-person_location) < this_min:
+            this_min = abs(location_index-person_location)
+            arg_min = loc
+    return arg_min
+
+
+def load_vectors
+
 def main():
     tokens_sentences = convert_sentences_to_tokens(processed_file_name)
     processed_dict = processed_text_to_dict(processed_file_name)
@@ -133,7 +145,7 @@ def main():
             # all_sentence_ner_dict[sen_num] = ner_dict
             text = sen_num + "\t"
             ner_dict =  all_sentence_ner_dict[line[0]]
-            if sen_num == 'sent953':
+            if sen_num == 'sent70':
                 stanford = stanford_extract_ner_from_sen(tokens_sentences[sen_num])
                 combine_processed_and_stanford = combine_two_sentences(stanford, processed_dict[sen_num])
                 ners = extract_ner(combine_processed_and_stanford)
@@ -144,12 +156,14 @@ def main():
                 continue
 
             for per in ner_dict[person]:
-                for loc in ner_dict[location]:
-                    person_appread_in = per[1]
-                    loc_appread_in = loc[1]
+                person_appread_in = per[1]
+                loc = find_closest_location(ner_dict[location],person_appread_in)
+                # for loc in ner_dict[location]:
+                #     loc_appread_in = loc[1]
                     # if (len(ner_dict[person]) == 1 and len(ner_dict[location]) == 1):
-                    text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
-                    save_all_text.append(text_line)
+                # if abs(loc_appread_in - person_appread_in) < 1500:
+                text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
+                save_all_text.append(text_line)
 
     write_to_file("save_output.txt", save_all_text)
     # save_to_file(all_sentence_ner_dict, file_name_for_all_ner)

@@ -49,14 +49,12 @@ sent173	Hoffman	Live_In	Fresno
 sent173	Brent	Live_In	Fresno
 sent188	June Anderson	Live_In	Moscow
 sent188	June Anderson	Live_In	Bolshoi Ballet
-sent188	June Anderson	Live_In	Moscow
 sent188	June Anderson	Live_In	Leningrad
 sent188	June Anderson	Live_In	Kirov Ballet
 sent188	June Anderson	Live_In	Yerevan
 sent188	June Anderson	Live_In	U.S.
 sent188	Carol Vaness	Live_In	Moscow
 sent188	Carol Vaness	Live_In	Bolshoi Ballet
-sent188	Carol Vaness	Live_In	Moscow
 sent188	Carol Vaness	Live_In	Leningrad
 sent188	Carol Vaness	Live_In	Kirov Ballet
 sent188	Carol Vaness	Live_In	Yerevan
@@ -106,7 +104,6 @@ sent510	Timothy Jacobs	Live_In	North Carolina
 sent511	Jacobs	Live_In	North Carolina
 sent511	Cuomo	Live_In	North Carolina
 sent511	Jim Martin	Live_In	North Carolina
-sent511	Jacobs	Live_In	North Carolina
 sent516	Jacobs	Live_In	Robeson County
 sent516	Jacobs	Live_In	N.C.
 sent517	Eddie Hatcher	Live_In	Lumberton
@@ -167,7 +164,6 @@ sent896	Walesa	Live_In	Gdansk
 sent902	Bruce Jonasson	Live_In	Montreal
 sent902	Bruce Jonasson	Live_In	Ottawa
 sent934	Robert Bourassa	Live_In	Canada
-sent934	Robert Bourassa	Live_In	Quebec
 sent934	Robert Bourassa	Live_In	Quebec
 sent952	Jake Garn	Live_In	Utah
 sent952	Jake Garn	Live_In	D - Fla
@@ -256,8 +252,6 @@ sent1366	James Cirona	Live_In	San Francisco
 sent1405	Daniel Urquhart	Live_In	Aumsville
 sent1417	Higgins	Live_In	America
 sent1417	Sheik Abdul Karim Obeid	Live_In	America
-sent1417	Higgins	Live_In	America
-sent1417	Higgins	Live_In	America
 sent1417	Hijja	Live_In	America
 sent1434	Hayes Picou	Live_In	Louisiana
 sent1434	Hayes Picou	Live_In	Cameron Parish
@@ -279,8 +273,6 @@ sent1524	Higgins	Live_In	Louisville
 sent1524	Higgins	Live_In	Okolona
 sent1524	Mary Fisher	Live_In	Louisville
 sent1524	Mary Fisher	Live_In	Okolona
-sent1524	Higgins	Live_In	Louisville
-sent1524	Higgins	Live_In	Okolona
 sent1526	Mitch McConnell	Live_In	U.S.
 sent1526	Mitch McConnell	Live_In	Louisville
 sent1526	Higgins	Live_In	U.S.
