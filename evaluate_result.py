@@ -66,9 +66,9 @@ def read_pred(pred_file_name,sentnce_to_relation):
 
     return good,bad,pred_set
 
-def main(pred_file_name = "save_output.txt"):
+def main(pred_file_name = "save_output.txt",golden_file_name ="data/TRAIN.annotations" ):
     # gold_file_name = "data/TRAIN.annotations"
-    sentnce_to_relation, gold_items = gold_file()
+    sentnce_to_relation, gold_items = gold_file(golden_file_name)
     good, bad, pred_set = read_pred(pred_file_name,sentnce_to_relation)
 
 

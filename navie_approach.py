@@ -1,19 +1,14 @@
 import pickle
-from nltk.tag.stanford import StanfordNERTagger
 import evaluate_result
-st = StanfordNERTagger('/Users/ofersabo/PycharmProjects/NLP_A4/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz',
-               '/Users/ofersabo/PycharmProjects/NLP_A4/stanford-ner-2018-10-16/stanford-ner.jar')
+from utils import *
 
 file_name = "data/Corpus.TRAIN.txt"
 processed_file_name = "data/Corpus.TRAIN.processed"
-person = 'PERSON'
-location = 'LOCATION'
+
 file_name_for_all_ner = "all_ner_file_dict.pickle"
 stanford_ner_pickle = "stnaford_ner.pickle"
 combind_sentences_pickle = "combined_dict.pickle"
-Mr_Mrs = set(['Mrs.','Ms.'])
-down = 0
-up = 1
+
 def save_to_file(var , file_name):
     print (var)
     with open(file_name, 'wb') as handle:
@@ -46,35 +41,7 @@ def convert_sentences_to_tokens(file_name):
 
     return sentences
 
-def processed_text_to_dict(file_name):
-    sentence_dict = {}
-    last_line_is_blank = True
-    for i,line in enumerate(open(file_name)):
-        line = line.strip().replace("\t"," ").split()
-        if last_line_is_blank:
-            last_line_is_blank = False
-            sen_num = line[-1]
-            sentence_dict[sen_num] = sentence_dict.get(sen_num,list())
-            this_sentence = sentence_dict[sen_num]
-            continue
-        elif len(line) == 0:
-            last_line_is_blank = True
-            continue
-        elif line[0].isdigit():
-            word = line[1]
-            ner = line[-1]
-            if ner=="GPE" or ner == "NORP": ner = "LOCATION"
-            if line[3] == 'POS':
-                ner = 'O'
-            if ner == person and len(this_sentence) > 0:
-                pre_tup = this_sentence[-1]
-                pre_word = pre_tup[0]
-                if (pre_word == 'Mrs.' or pre_word == 'Ms.'):
-                    this_sentence[-1] = (pre_word,person)
 
-            this_sentence.append((word,ner))
-
-    return sentence_dict
 
 def extract_ner(sen):
     all_ner = []
@@ -118,9 +85,7 @@ def write_to_file(file_name,list_of_text):
             f.write(s)
 
 
-def stanford_extract_ner_from_sen(sen):
-    r = st.tag(sen)
-    return r
+
 
 
 def combine_two_sentences(first,second):
@@ -253,7 +218,7 @@ def main():
     tokens_sentences = convert_sentences_to_tokens(processed_file_name)
     processed_dict = processed_text_to_dict(processed_file_name)
     all_stanford_text= {}
-    word_to_route  = get_path_from_word()
+    word_to_route  = get_path_from_word(processed_file_name)
     with open(file_name) as f:
         save_all_text = []
         all_sentence_ner_dict = {}
@@ -264,10 +229,10 @@ def main():
             line = line.split("\t")
             sen_num = line[0]
             route_to_root = word_to_route[sen_num]
-            # sen = tokens_sentences[sen_num]
+            sen = tokens_sentences[sen_num]
             stanford = all_stanford_text[sen_num]
-            # stanford = stanford_extract_ner_from_sen(sen)
-            # all_stanford_text[sen_num] = stanford
+            stanford = stanford_extract_ner_from_sen(sen)
+            all_stanford_text[sen_num] = stanford
             combine_processed_and_stanford = combine_two_sentences(stanford.copy(),processed_dict[sen_num])
             combined_dict[sen_num] = combine_processed_and_stanford
 
@@ -294,7 +259,7 @@ def main():
                 # loc = find_closest_location(ner_dict[location],person_appread_in)
                 for loc in possiable_location:
                     distance = find_length_route(per,loc,route_to_root)
-                    if distance < 100:
+                    if distance < 7:
                 #     loc_appread_in = loc[1]
                     # if (len(ner_dict[person]) == 1 and len(ner_dict[location]) == 1):
                 # if abs(loc_appread_in - person_appread_in) < 1500:
@@ -302,8 +267,9 @@ def main():
                         save_all_text.append(text_line)
 
     write_to_file("save_output.txt", save_all_text)
+    save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
 
-    # save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
+    save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
     # save_to_file(all_stanford_text,stanford_ner_pickle)
     #save_to_file(combined_dict,combind_sentences_pickle)
     evaluate_result.main()
