@@ -8,13 +8,14 @@ st = StanfordNERTagger(
 
 down = 0
 up = 1
+ORGANIZTION = "ORG"
 POS_OF_START = "!!!!START!!!"
 POS_OF_END = "!!!!END!!!"
 set_of_tags = set(
     ['PROPN', 'DET', 'PRON', 'NUM', 'NOUN', 'ADJ', 'PART', 'ADV', 'CONJ', 'VERB', 'ADP'])
 Mr_Mrs = set(['Mrs.', 'Ms.'])
-person = 'PERSON'
-location = 'LOCATION'
+PERSON = 'PERSON'
+LOCATION = 'LOCATION'
 
 
 def processed_text_to_dict(file_name):
@@ -37,11 +38,11 @@ def processed_text_to_dict(file_name):
             if ner == "GPE" or ner == "NORP": ner = "LOCATION"
             if line[3] == 'POS':
                 ner = 'O'
-            if ner == person and len(this_sentence) > 0:
+            if ner == PERSON and len(this_sentence) > 0:
                 pre_tup = this_sentence[-1]
                 pre_word = pre_tup[0]
                 if (pre_word == 'Mrs.' or pre_word == 'Ms.'):
-                    this_sentence[-1] = (pre_word, person)
+                    this_sentence[-1] = (pre_word, PERSON)
 
             this_sentence.append((word, ner))
 
@@ -88,16 +89,17 @@ def find_joint_route(per_route, loc_route, this_sentence_proccesed_data):
     return dis, route_dependency, route_POS
 
 
-def find_father_verb(per, this_sentence_proccesed_data):
-    for i, ele in enumerate(longest, 1):
-        if ele in set(shortest):
-            dis = i
+def find_father_verb(route, this_sentence_proccesed_data):
+    my_verb = ""
+    for i, ele in enumerate(route, 1):
+        index = int(ele[-1])
+        if this_sentence_proccesed_data[index - 1][4] == "VERB":
+            my_verb = this_sentence_proccesed_data[index - 1][2]
             break
-        route_dependency.append(ele[1] + str(up))
-        route_POS.append(this_sentence_proccesed_data[int(ele[0]) - 1][3] + str(up))
+    return my_verb
 
 
-def find_length_route(per, loc, route_per_word, this_sentence_proccesed_data):
+def find_route_to_root(per, loc, route_per_word, this_sentence_proccesed_data):
     per_word = extract_word_from_tuple(per)
     loc_word = extract_word_from_tuple(loc)
     per_route = route_per_word[per_word]
@@ -108,8 +110,9 @@ def find_length_route(per, loc, route_per_word, this_sentence_proccesed_data):
     else:
         dis, route_dependency, route_POS = find_joint_route(per_route, loc_route, this_sentence_proccesed_data)
 
-    #find_father_verb(per, this_sentence_proccesed_data)
-    return dis, '_'.join(route_dependency), '_'.join(route_POS)
+    per_verb = find_father_verb(per_route, this_sentence_proccesed_data)
+    loc_verb = find_father_verb(loc_route, this_sentence_proccesed_data)
+    return dis, '_'.join(route_dependency), '_'.join(route_POS), per_verb, loc_verb
 
 
 def feature_per_word(per, this_sentence_proccesed_data, smaller_than_pos_list, less_detailed_than_pos):
@@ -207,17 +210,22 @@ tag Dependency_connection_YES_NO DISTANCE_BETWEEN_WORDS_BY_dependency(if_not_con
 '''
 
 
-def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_proccesed_data):
+def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_proccesed_data,is_per):
     # tag Dependency_connection_YES_NO DISTANCE_BETWEEN_WORDS_BY_dependency(if_not_connected_then_999) DISTANCE_BETWEEN_WORDS_BY_INDEX    PERSON_WORD NUMBER_OF_NN_BEFORE_PERSON NUMBER_OF_POS_BEFORE_PERSON DEPENDENCY_TO_ROOT LOCATION_WORD NUMBER_OF_POS_BEFORE_PERSON DEPENDENCY_TO_ROOT
     pos_list = [t[3] for t in this_sentence_proccesed_data]
     less_detailed_than_pos_with_index = [(t[4], t[0]) for t in this_sentence_proccesed_data]
     less_detailed_than_pos = [t[4] for t in this_sentence_proccesed_data]
     fe = []
-    dis, route, pos_route = find_length_route(per, loc, route_to_root, this_sentence_proccesed_data)
+    dis, route, pos_route, per_verb, loc_verb = find_route_to_root(per, loc, route_to_root,
+                                                                   this_sentence_proccesed_data)
     verbs_between, len_verbs = extract_verbs_between_args(this_sentence_proccesed_data, per, loc,
                                                           less_detailed_than_pos_with_index)
+
+    fe.extend([per_verb, loc_verb])
+
     Dependency_connection_YES_NO = "Yes" if dis < 100 else "No"
     fe.append(Dependency_connection_YES_NO)
+
     DISTANCE_BETWEEN_WORDS_BY_dependency = dis
     fe.append(DISTANCE_BETWEEN_WORDS_BY_dependency)
 
@@ -250,21 +258,26 @@ def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_procce
     for i in set_of_tags:
         fe.append(counter_smaller_than_pos[i])
 
+    fe.append(str(is_per))
+
     return fe
 
 
-def get_tags_from_annotations(file_name_with_annotations="data/TRAIN.annotations"):
+def skip_sentence_if_needed(ner_dict):
+    if not ((PERSON in ner_dict or ORGANIZTION in ner_dict) and LOCATION in ner_dict):
+        return True
+    return False
+
+
+def get_tags_from_annotations(file_name_with_annotations):
     sent_annotate = {}
     with open(file_name_with_annotations) as f:
         for line in f:
             line = line.split("\t")
             sen_num = line[0]
-            if "Live_In" in line:
-                per = line[1]
-                loc = line[3]
-            else:
-                per = ""
-                loc = ""
+            # relation_type = line[2]
+            per = line[1]
+            loc = line[3]
             sent_annotate[sen_num] = sent_annotate.get(sen_num, list())
             sent_annotate[sen_num].append((per, loc))
 
@@ -318,7 +331,6 @@ def get_path_from_word(file_name):
                 con = sentence[next_index - 1][6]
                 next_index = int(sentence[next_index - 1][5])
 
-
             this_sen[original_word] = route_to_root
 
     return mega_dict, dict_to_list
@@ -338,8 +350,8 @@ def combine_two_sentences(first, second):
         if first_tuple[1] != second_tuple[1]:
             if first_tuple[1] == 'O':
                 first[i] = second[i]
-        if first_tuple[1] == location and i > 0 and first[i - 1][0] in Mr_Mrs:
-            first[i - 1][1] = location
+        if first_tuple[1] == LOCATION and i > 0 and first[i - 1][0] in Mr_Mrs:
+            first[i - 1][1] = LOCATION
     return first
 
 
@@ -362,20 +374,23 @@ def extract_ner(sen):
 def check_person_and_location(all_ner):
     dict_ner = {}
     for ele in all_ner:
-        if ele[1] == person:
-            dict_ner[person] = dict_ner.get(person, list())
-            dict_ner[person].append((ele[0], ele[2]))
-        elif ele[1] == location:
-            dict_ner[location] = dict_ner.get(location, list())
-            dict_ner[location].append((ele[0], ele[2]))
+        if ele[1] == PERSON:
+            dict_ner[PERSON] = dict_ner.get(PERSON, list())
+            dict_ner[PERSON].append((ele[0], ele[2]))
+        elif ele[1] == LOCATION:
+            dict_ner[LOCATION] = dict_ner.get(LOCATION, list())
+            dict_ner[LOCATION].append((ele[0], ele[2]))
+        elif ele[1] == ORGANIZTION:
+            dict_ner[ORGANIZTION] = dict_ner.get(ORGANIZTION, list())
+            dict_ner[ORGANIZTION].append((ele[0], ele[2]))
 
     return dict_ner
 
 
-def unique_person_and_location(persons, locations):
+def unique_person_and_location(entity, locations, org):
     per_set = set()
     person_res = []
-    for p in persons:
+    for p in entity:
         if not p[0] in per_set:
             person_res.append(p)
         per_set.add(p[0])
@@ -387,7 +402,14 @@ def unique_person_and_location(persons, locations):
             location_res.append(l)
         loc_set.add(l[0])
 
-    return person_res, location_res
+    org_set = set()
+    org_res = []
+    for l in org:
+        if not l[0] in org_set:
+            org_res.append(l)
+            org_set.add(l[0])
+
+    return person_res, location_res, org_res
 
 
 def tupple_in_annotion(person, location, ann):

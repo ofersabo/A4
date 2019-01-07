@@ -99,19 +99,19 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
             text = sen_num + "\t"
             ner_dict = all_sentence_ner_dict[sen_num]
 
-            if not (person in ner_dict and location in ner_dict):
+            if skip_sentence_if_needed(ner_dict):
                 continue
 
-            possiable_persons, possiable_location = unique_person_and_location(ner_dict[person], ner_dict[location])
-            for per in possiable_persons:
+            possiable_persons, possiable_location, possible_org = unique_person_and_location(ner_dict.get(PERSON,[]), ner_dict[LOCATION],ner_dict.get(ORGANIZTION,[]))
+            for entity in (possiable_persons + possible_org):
                 for loc in possiable_location:
-                    feature = extract_feature(per, loc, route_to_root, combine_processed_and_stanford,
-                                              this_sentence_proccesed_data)
-                    true_or_not = tupple_in_annotion(per, loc, correct_annotations[sen_num])
+                    feature = extract_feature(entity, loc, route_to_root, combine_processed_and_stanford,
+                                              this_sentence_proccesed_data,entity in possiable_persons)
+                    true_or_not = tupple_in_annotion(entity, loc, correct_annotations[sen_num])
                     txt = convert_to_text_only_feature(feature)
                     pred = convert_to_vec(txt,outside)
                     if pred:
-                        text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
+                        text_line = text + entity[0] + "\tLive_In\t" + loc[0] + "\n"
                         save_all_text.append(text_line)
 
     print(len(set(outside)))

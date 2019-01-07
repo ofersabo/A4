@@ -19,7 +19,7 @@ def main(feature_vec = "vec_file.txt", model_file = "saved_model_short"):
     X_train, y_train = load_svmlight_file(feature_vec)
     print ("loaded")
     #only_check(model_file,X_train)
-    clf = LinearSVC(penalty='l2',verbose=True,C=2.5,loss='hinge')
+    clf = LinearSVC(penalty='l2',verbose=True,C=1)
     model = clf.fit(X_train,y_train)
     pickle.dump(clf, open(model_file, 'wb'))
     return model_file
