@@ -82,7 +82,8 @@ def main(pred_file_name = "save_output.txt",golden_file_name ="data/TRAIN.annota
     print ("good=",good)
     print ("bad=",bad)
 
-    prec = good / (good + bad)
+    if good + bad > 0: prec = good / (good + bad)
+    else: prec = 0
     recall = 1 - len(gold_items - pred_set) / len(gold_items)
 
 
@@ -91,7 +92,7 @@ def main(pred_file_name = "save_output.txt",golden_file_name ="data/TRAIN.annota
     print ("prec " + str(prec))
     print ("recall " + str(recall))
     print("F1 score ", 2*prec*recall/(prec+recall))
-
+    return (gold_items - pred_set)
 
 if __name__ == '__main__':
    main()

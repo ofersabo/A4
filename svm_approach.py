@@ -12,8 +12,8 @@ st = StanfordNERTagger(
 
 save_feature_here = "memm-features"
 file_name = "data/Corpus.TRAIN.txt"
+dev_ann = "data/TRAIN.annotations"
 processed_file_name = "data/Corpus.TRAIN.processed"
-ann_file = "data/TRAIN.annotations"
 person = 'PERSON'
 location = 'LOCATION'
 file_name_for_all_ner = "all_ner_file_dict.pickle"
@@ -73,13 +73,14 @@ def processed_text_to_dict(file_name):
             word = line[1]
             ner = line[-1]
             if ner == "GPE" or ner == "NORP": ner = "LOCATION"
+            # if ner == "GPE": ner = "LOCATION"
             if line[3] == 'POS':
                 ner = 'O'
-            if ner == PERSON and len(this_sentence) > 0:
+            if ner == person and len(this_sentence) > 0:
                 pre_tup = this_sentence[-1]
                 pre_word = pre_tup[0]
                 if (pre_word == 'Mrs.' or pre_word == 'Ms.'):
-                    this_sentence[-1] = (pre_word, PERSON)
+                    this_sentence[-1] = (pre_word, person)
 
             this_sentence.append((word, ner))
 
@@ -109,12 +110,14 @@ def find_closest_location(all_location, person_location):
 
 
 def main():
-    correct_annotations = get_tags_from_annotations(ann_file)
+    correct_annotations = get_tags_from_annotations(dev_ann)
     combined_dict = load_from_file(combind_sentences_pickle)
     tokens_sentences = convert_sentences_to_tokens(processed_file_name)
     processed_dict = processed_text_to_dict(processed_file_name)
     all_stanford_text = {}
     all_txt = []
+    false_line= []
+    fal = pos = 0
     word_to_route, all_sentence_data = get_path_from_word(processed_file_name)
     with open(file_name) as f:
         save_all_text = []
@@ -130,10 +133,11 @@ def main():
             stanford = all_stanford_text[sen_num]
             # stanford = stanford_extract_ner_from_sen(sen)
             # all_stanford_text[sen_num] = stanford
-            combine_processed_and_stanford = combine_two_sentences(stanford.copy(), processed_dict[sen_num])
+            this_sentence_proccesed_data = all_sentence_data[sen_num]
+            combine_processed_and_stanford = combine_two_sentences(stanford.copy(), processed_dict[sen_num],this_sentence_proccesed_data)
             combined_dict[sen_num] = combine_processed_and_stanford
 
-            this_sentence_proccesed_data = all_sentence_data[sen_num]
+
 
             ners = extract_ner(combine_processed_and_stanford)
             ner_dict = check_person_and_location(ners)
@@ -142,19 +146,29 @@ def main():
             text = sen_num + "\t"
             ner_dict = all_sentence_ner_dict[line[0]]
 
-            if skip_sentence_if_needed(ner_dict):
+            if not (person in ner_dict and location in ner_dict):
                 continue
-            # entity = set(ner_dict.get(PERSON,[]) + ner_dict.get(ORGANIZTION,[]) )
 
-            possiable_persons, possiable_location,possible_org = unique_person_and_location(ner_dict.get(PERSON,[]), ner_dict[LOCATION],ner_dict.get(ORGANIZTION,[]))
-            for per_or_org in (possiable_persons+possible_org):
+            possiable_persons, possiable_location = unique_person_and_location(ner_dict[person], ner_dict[location])
+            for per in possiable_persons:
                 for loc in possiable_location:
-                    feature = extract_feature(per_or_org, loc, route_to_root, combine_processed_and_stanford,
-                                              this_sentence_proccesed_data,per_or_org in possiable_persons)
-                    true_or_not = tupple_in_annotion(per_or_org, loc, correct_annotations[sen_num])
+                    feature = extract_feature(per, loc, route_to_root, combine_processed_and_stanford,
+                                              this_sentence_proccesed_data)
+                    # feature.append((len(possiable_persons))*len(possiable_location)==1)
+                    # feature.append((len(possiable_location)))
+                    true_or_not = tupple_in_annotion(per, loc, correct_annotations[sen_num])
+                    if (len(possiable_persons)*len(possiable_location)==1):
+                        fal +=  true_or_not == 0
+                        pos +=  true_or_not == 1
+                        print(sen_num)
+                        if (not true_or_not):
+                            false_line.append(line)
                     txt = convert_to_text(true_or_not, feature)
                     all_txt.append(txt)
-
+    print("pos ",pos)
+    print("fal ",fal)
+    for p in false_line:
+        print(p)
     write_to_file(save_feature_here, all_txt)
     features_vec_file, features_map_file = ConvertFeatures.main(save_feature_here)
     model_file = TrainSolver.main(features_vec_file)

@@ -81,6 +81,8 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
             print(i)
             line = line.split("\t")
             sen_num = line[0]
+            if sen_num == "sent3152":
+                print()
             route_to_root = word_to_route[sen_num]
             this_sentence = all_sentence_data[sen_num]
             sen = [k[1] for k in this_sentence]
@@ -88,30 +90,35 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
             stanford = all_stanford_text[sen_num]
             # stanford = stanford_extract_ner_from_sen(sen)
             #all_stanford_text[sen_num] = stanford
-            combine_processed_and_stanford = combine_two_sentences(stanford.copy(), processed_dict[sen_num])
-            combined_dict[sen_num] = combine_processed_and_stanford
+
             this_sentence_proccesed_data = all_sentence_data[sen_num]
+            combine_processed_and_stanford = combine_two_sentences(stanford.copy(), processed_dict[sen_num],this_sentence_proccesed_data)
+            combined_dict[sen_num] = combine_processed_and_stanford
 
             ners = extract_ner(combine_processed_and_stanford)
             ner_dict = check_person_and_location(ners)
-            all_sentence_ner_dict[sen_num] = ner_dict
+            all_sentence_ner_dict[sen_num] = ners
 
             text = sen_num + "\t"
-            ner_dict = all_sentence_ner_dict[sen_num]
+            #ner_dict = all_sentence_ner_dict[sen_num]
 
-            if skip_sentence_if_needed(ner_dict):
+            if not (person in ner_dict and location in ner_dict):
                 continue
 
-            possiable_persons, possiable_location, possible_org = unique_person_and_location(ner_dict.get(PERSON,[]), ner_dict[LOCATION],ner_dict.get(ORGANIZTION,[]))
-            for entity in (possiable_persons + possible_org):
+            possiable_persons, possiable_location = unique_person_and_location(ner_dict[person], ner_dict[location])
+            for per in possiable_persons:
                 for loc in possiable_location:
-                    feature = extract_feature(entity, loc, route_to_root, combine_processed_and_stanford,
-                                              this_sentence_proccesed_data,entity in possiable_persons)
-                    true_or_not = tupple_in_annotion(entity, loc, correct_annotations[sen_num])
+                    feature = extract_feature(per, loc, route_to_root, combine_processed_and_stanford,
+                                              this_sentence_proccesed_data)
+                    # feature.append((len(possiable_persons))*len(possiable_location)==1)
+
+                    # feature.append((len(possiable_persons)))
+                    # feature.append((len(possiable_location)))
+                    true_or_not = tupple_in_annotion(per, loc, correct_annotations[sen_num])
                     txt = convert_to_text_only_feature(feature)
                     pred = convert_to_vec(txt,outside)
-                    if pred:
-                        text_line = text + entity[0] + "\tLive_In\t" + loc[0] + "\n"
+                    if pred: #or len(possiable_persons)*len(possiable_location)==1:
+                        text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
                         save_all_text.append(text_line)
 
     print(len(set(outside)))
@@ -119,6 +126,7 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
 
     write_to_file(output_file_name, save_all_text)
     save_to_file(all_stanford_text,DEV_STANFORD_NER )
+    return all_sentence_ner_dict
 
 def analyze_feature_map(input_file):
     f = open(input_file, "r")
@@ -135,14 +143,31 @@ def main(clean_input_file_name = "data/Corpus.DEV.txt",input_file_name="data/Cor
     global model
     model = load_model(model_filename)
     analyze_feature_map(feature_map_filename)
-    find_answer(clean_input_file_name,input_file_name, output_file_name, golden_file)  # ../files/MEMM_output.txt
-    return output_file_name
+    all_sentence_ner_dict = find_answer(clean_input_file_name,input_file_name, output_file_name, golden_file)  # ../files/MEMM_output.txt
+    return output_file_name,all_sentence_ner_dict
 
 if __name__ == '__main__':
     import evaluate_result
     start = time.time()
-    output_file_name = main()
-    evaluate_result.main(output_file_name, "data/DEV.annotations")
+    output_file_name,all_sentence_ner_dict = main()
+    missd_rel = evaluate_result.main(output_file_name, "data/DEV.annotations")
+    missed_locs = 0
+    missed_pers = 0
+    for miss in missd_rel:
+        sen_num = miss[0]
+        ner = all_sentence_ner_dict[sen_num]
+        org_list = [item[0] for item in ner if item[1] == "ORGANIZATION"]
+        if miss[1] in org_list:
+            missed_pers += 1
+        if miss[2] in org_list:
+            missed_locs += 1
+    print(missed_pers)
+    print(missed_locs)
+
+
+
+
+
     end = time.time()
     print
     "time is %f" % (end - start)
