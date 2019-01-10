@@ -1,3 +1,4 @@
+# Ofer Sabo 201511110 Daniel Ben Itzhak  338017437
 from nltk.tag.stanford import StanfordNERTagger
 from collections import Counter
 import pickle
@@ -12,6 +13,7 @@ POS_OF_START = "!!!!START!!!"
 POS_OF_END = "!!!!END!!!"
 set_of_tags = ['PROPN', 'PRON', 'NOUN']
 Mr_Mrs = set(['Mrs.', 'Ms.'])
+load_from_pickle =False
 live_in = True
 person = 'PERSON'
 if live_in:
@@ -283,8 +285,8 @@ def extract_feature(per, loc, route_to_root, ner_dict, this_sentence_proccesed_d
     for i in set_of_tags:
         fe.append(counter_smaller_than_pos[i])
 
-    # fe.append(len(ner_dict[0]))
-    # fe.append(len(ner_dict[1]))
+    fe.append(len(ner_dict))
+    fe.append(len(ner_dict))
 
     return fe
 
@@ -416,21 +418,20 @@ def check_person_and_location(all_ner):
 
 
 def unique_person_and_location(persons, locations):
-    per_set = set()
-    person_res = []
+    #from collections import Counter()
+    per_dict = dict()
     for p in persons:
-        if not p[0] in per_set:
-            person_res.append(p)
-        per_set.add(p[0])
+        per_dict[p[0]] =  per_dict.get(p[0],[])
+        per_dict[p[0]].append(p[1])
 
-    loc_set = set()
-    location_res = []
+
+    loc_dict = dict()
     for l in locations:
-        if not l[0] in loc_set:
-            location_res.append(l)
-        loc_set.add(l[0])
+        loc_dict[l[0]]  = loc_dict.get(l[0],[])
+        loc_dict[l[0]].append(l[1])
 
-    return person_res, location_res
+
+    return per_dict, loc_dict
 
 
 def tupple_in_annotion(person, location, ann):
@@ -462,3 +463,14 @@ def load_from_file(file_name):
     with open(file_name, 'rb') as f:
         var = pickle.load(f)
     return var
+
+
+def create_nereast_tupple(per_name,person_indeces,location_name,location_indences):
+    min_distance = 999
+    for per_index in person_indeces:
+        for loc_index in location_indences:
+            if abs(per_index-loc_index) < min_distance:
+                min_distance = abs(per_index-loc_index)
+                keep_per = per_index
+                keep_loc = loc_index
+    return (per_name,person_indeces[0]),(location_name,location_indences[0])

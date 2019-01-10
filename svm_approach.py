@@ -85,8 +85,13 @@ def find_closest_location(all_location, person_location):
 
 
 def main():
-    load_from_pickle =True
+    wrost_case = 0
+    preson_twich = 0
+    location_twich = 0
+
+
     correct_annotations = get_tags_from_annotations(dev_ann)
+
     if (load_from_pickle):
         all_stanford_text = load_from_file(stanford_ner_pickle)
     else:
@@ -119,10 +124,22 @@ def main():
             if not (person in person_location_ner and location in person_location_ner):
                 continue
             possiable_persons, possiable_location = unique_person_and_location(person_location_ner[person], person_location_ner[location])
+            # for k_p,p in possiable_persons.items():
+            #     for k_p,l in possiable_location.items():
+            #         if len(p) > 1 and len(l) > 1:
+            #             wrost_case +=1
+            #         elif len(p) > 1:
+            #             preson_twich +=1
+            #         elif len(l) > 1:
+            #             location_twich += 1
+            #             print(line[1])
+            # print(wrost_case, preson_twich, location_twich)
+
             for per in possiable_persons:
                 for loc in possiable_location:
-                    feature = extract_feature(per, loc, route_to_root, [possiable_persons, possiable_location],this_sentence_proccesed_data)
-                    true_or_not = tupple_in_annotion(per, loc, correct_annotations[sen_num])
+                    per_tup, loc_tup = create_nereast_tupple(per,possiable_persons[per],loc,possiable_location[loc])
+                    feature = extract_feature(per_tup, loc_tup, route_to_root, [possiable_persons[per], possiable_location[loc]],this_sentence_proccesed_data)
+                    true_or_not = tupple_in_annotion(per_tup, loc_tup, correct_annotations[sen_num])
                     if (DEBUG and len(possiable_persons) * len(possiable_location) == 1):
                         fal += true_or_not == 0
                         pos += true_or_not == 1
@@ -136,7 +153,6 @@ def main():
         print("fal ", fal)
         for p in false_line:
             print(p)
-
     write_to_file(save_feature_here, all_txt)
     features_vec_file, features_map_file = ConvertFeatures.main(save_feature_here)
     model_file = TrainSolver.main(features_vec_file)
