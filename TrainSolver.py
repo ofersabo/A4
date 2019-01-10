@@ -35,7 +35,7 @@ def main(feature_vec="vec_file.txt", model_file="saved_model_short"):
     X_train, y_train = load_svmlight_file(feature_vec)
     print("loaded")
     # only_check(model_file,X_train)
-    clf = LinearSVC(penalty='l2', verbose=True, C=0.3)
+    clf = LinearSVC(penalty='l2', verbose=False, C=.5)
     model = clf.fit(X_train, y_train)
     pickle.dump(clf, open(model_file, 'wb'))
     # plot_coefficients(model)

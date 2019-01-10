@@ -10,13 +10,17 @@ down = 0
 up = 1
 POS_OF_START = "!!!!START!!!"
 POS_OF_END = "!!!!END!!!"
-set_of_tags = set(
-    ['PROPN', 'DET', 'PRON', 'NUM', 'NOUN', 'ADJ', 'PART', 'ADV', 'CONJ', 'VERB', 'ADP'])
+set_of_tags = ['PROPN', 'PRON', 'NOUN']
 Mr_Mrs = set(['Mrs.', 'Ms.'])
+live_in = True
 person = 'PERSON'
-location = 'LOCATION'
+if live_in:
+    location = 'LOCATION'
+    relation = "Live_In"
+else:
+    location = 'ORGANIZATION'
+    relation = "Work_For"
 DT_SET = set(["DT"])
-SPECIAL_PROP = []
 
 
 def processed_text_to_dict(file_name):
@@ -36,7 +40,8 @@ def processed_text_to_dict(file_name):
         elif line[0].isdigit():
             word = line[1]
             ner = line[-1]
-            if ner == "GPE" or ner == "NORP": ner = "LOCATION"
+            # if ner == "GPE" or ner == "NORP": ner = "LOCATION"
+            if ner == "GPE": ner = "LOCATION"  # or ner == "NORP": ner = "LOCATION"
             if line[3] == 'POS':
                 ner = 'O'
             if ner == person and len(this_sentence) > 0:
@@ -63,14 +68,15 @@ def write_to_file(file_name, list_of_text):
             f.write(s)
 
 
-def extract_ner_inbetween_loc(ele,sen):
-    inbetween =False
+def extract_ner_inbetween_loc(ele, sen):
+    inbetween = False
     if sen[int(ele[-1]) - 1][-1] == "GPE":
         inbetween = True
 
     return inbetween
 
-def extract_ner_inbetween_per(ele,sen):
+
+def extract_ner_inbetween_per(ele, sen):
     inbetween_per = False
     if sen[int(ele[-1]) - 1][-1] == person:
         inbetween_per = True
@@ -87,7 +93,7 @@ def find_joint_route(per_route, loc_route, this_sentence_proccesed_data):
         shortest = per_route
 
     dis = 0
-    inbetween_person, inbetween_loc,had_special_prop = False,False,0
+    inbetween_person, inbetween_loc, had_special_prop = False, False, 0
     route_dependency = []
     route_POS = []
     for i, ele in enumerate(longest, 1):
@@ -95,39 +101,26 @@ def find_joint_route(per_route, loc_route, this_sentence_proccesed_data):
             dis = i
             break
         if i > 1 and not inbetween_person:
-            inbetween_person = extract_ner_inbetween_per(ele,this_sentence_proccesed_data)
+            inbetween_person = extract_ner_inbetween_per(ele, this_sentence_proccesed_data)
         if i > 1 and not inbetween_loc:
-            inbetween_loc = extract_ner_inbetween_loc(ele,this_sentence_proccesed_data)
-        if this_sentence_proccesed_data[int(ele[-1]) - 1][2] in SPECIAL_PROP:
-            had_special_prop += 1
+            inbetween_loc = extract_ner_inbetween_loc(ele, this_sentence_proccesed_data)
 
         route_dependency.append(ele[1] + str(up))
-        route_POS.append(this_sentence_proccesed_data[int(ele[0]) - 1][3] + str(up))
+        route_POS.append(this_sentence_proccesed_data[int(ele[0]) - 1][3])
 
     for i, ele in enumerate(shortest, 1):
         if ele in set(longest):
             dis += i
             break
         if i > 1 and not inbetween_person:
-            inbetween_person = extract_ner_inbetween_per(ele,this_sentence_proccesed_data)
+            inbetween_person = extract_ner_inbetween_per(ele, this_sentence_proccesed_data)
         if i > 1 and not inbetween_loc:
-            inbetween_loc = extract_ner_inbetween_loc(ele,this_sentence_proccesed_data)
-        if this_sentence_proccesed_data[int(ele[-1]) - 1][2] in SPECIAL_PROP:
-            had_special_prop += 1
+            inbetween_loc = extract_ner_inbetween_loc(ele, this_sentence_proccesed_data)
 
         route_dependency.append(ele[1] + str(down))
+        route_POS.append(this_sentence_proccesed_data[int(ele[0]) - 1][3])
 
-        route_POS.append(this_sentence_proccesed_data[int(ele[0]) - 1][3] + str(down))
-    return dis, route_dependency, route_POS, inbetween_person,inbetween_loc,had_special_prop
-
-
-def find_father_verb(per, this_sentence_proccesed_data):
-    for i, ele in enumerate(longest, 1):
-        if ele in set(shortest):
-            dis = i
-            break
-        route_dependency.append(ele[1] + str(up))
-        route_POS.append(this_sentence_proccesed_data[int(ele[0]) - 1][3] + str(up))
+    return dis, route_dependency, route_POS, inbetween_person, inbetween_loc
 
 
 def find_length_route(per, loc, route_per_word, this_sentence_proccesed_data):
@@ -137,70 +130,71 @@ def find_length_route(per, loc, route_per_word, this_sentence_proccesed_data):
     loc_route = route_per_word[loc_word]
     if len(set(per_route).intersection(set(loc_route))) == 0:
         dis = 999
-        route_dependency, route_POS, inbetween_person,inbetween_loc,had_special_prop = [], [], False,False,False
+        route_dependency, route_POS, inbetween_person, inbetween_loc, had_special_prop = [], [], False, False, False
     else:
-        dis, route_dependency, route_POS, inbetween_person,inbetween_loc,had_special_prop = find_joint_route(per_route, loc_route,
-                                                                           this_sentence_proccesed_data)
+        dis, route_dependency, route_POS, inbetween_person, inbetween_loc = find_joint_route(per_route, loc_route,this_sentence_proccesed_data)
 
     # find_father_verb(per, this_sentence_proccesed_data)
-    return dis, '_'.join(route_dependency), '_'.join(route_POS), inbetween_person,inbetween_loc,had_special_prop
+    return dis, '_'.join(route_dependency), '_'.join(route_POS), inbetween_person, inbetween_loc
 
 
-def feature_per_word(per, this_sentence_proccesed_data, smaller_than_pos_list, less_detailed_than_pos):
+def window_around_word(sentence, pos_list, index, k=2):
+    exten = 0
+    while index + exten < k:
+        sentence.insert(0, POS_OF_START)
+        pos_list.insert(0, POS_OF_START)
+        exten += 1
+    window = sentence[index + exten - k:index + exten]
+    pos_window = pos_list[index + exten - k:index + exten]
+
+    while index + 1 > len(sentence) - k:
+        sentence.insert(len(sentence), POS_OF_END)
+        pos_list.insert(len(sentence), POS_OF_END)
+
+    window.extend(sentence[index + 1:index + k + 1])
+    pos_window.extend(pos_list[index + 1:index + k + 1])
+
+    return window, pos_window
+
+
+def feature_per_word(per, this_sentence_proccesed_data, pos_list, less_detailed_than_pos):
     fe = []
     PERSON_WORD = per[0]
     length_person = len(PERSON_WORD.split())
     one_before_person = int(per[1]) - length_person
     after_person = int(per[1]) + 1
+    word_index = one_before_person + 1
+    lemma_form = [lemma[2] for lemma in this_sentence_proccesed_data.copy()]
+    pos_list_cut = pos_list.copy()
+    for i in range(1, length_person):
+        del (lemma_form[word_index + 1])
+        del (pos_list_cut[word_index + 1])
+
     assert this_sentence_proccesed_data[one_before_person + 1][1] == PERSON_WORD.split()[0]
     assert this_sentence_proccesed_data[after_person - 1][1] == PERSON_WORD.split()[-1]
 
-    if one_before_person >= 1:
-        PREVIOUS_WORD_POS = smaller_than_pos_list[one_before_person]
-        PREVIOUS_TWO_WORD_POS = smaller_than_pos_list[one_before_person - 1]
-        word_before = this_sentence_proccesed_data[one_before_person][2]
-        word_before_before = this_sentence_proccesed_data[one_before_person - 1][2]
-    elif one_before_person == 0:
-        PREVIOUS_WORD_POS = smaller_than_pos_list[one_before_person]
-        # two_words_before = this_sentence_proccesed_data[one_before_person - 1]
-        PREVIOUS_TWO_WORD_POS = POS_OF_START
-        word_before = this_sentence_proccesed_data[one_before_person][2]
-        word_before_before = POS_OF_START
-    else:
-        PREVIOUS_WORD_POS = POS_OF_START
-        PREVIOUS_TWO_WORD_POS = POS_OF_START
-        word_before = POS_OF_START
-        word_before_before = POS_OF_START
+    window, pos_window = window_around_word(lemma_form, pos_list_cut, word_index, 3)
+    for ele in window[:int(len(window) / 2)] + pos_window:  # insert into previous words
+        fe.append(ele)
 
-    fe.append(word_before)
-    fe.append(word_before_before)
+    for i, pre in enumerate(window[:int(len(window) / 2)]):
+        for next in window[i + 1:int(len(window) / 2)]:
+            fe.append(pre + "_" + next)
 
-    if after_person >= len(this_sentence_proccesed_data):
-        NEXT_WORD = POS_OF_END
-        NEXT_NEXT_WORD = POS_OF_END
-        word_next = POS_OF_END
-        word_next_next = POS_OF_END
-    elif after_person == len(this_sentence_proccesed_data) - 1:
-        NEXT_WORD = this_sentence_proccesed_data[after_person][2]
-        NEXT_NEXT_WORD = POS_OF_END
+    for i, pre in enumerate(window[int(len(window) / 2):]):
+        for next in window[int(len(window) / 2) + i + 1:]:
+            fe.append(pre + "_" + next)
 
-    else:
-        NEXT_WORD = this_sentence_proccesed_data[after_person][2]
-        NEXT_NEXT_WORD = this_sentence_proccesed_data[after_person + 1][2]
+    # for i,pre in enumerate(pos_window[:int(len(pos_window)/2)]):
+    #     for next in pos_window[i+1:int(len(pos_window)/2)]:
+    #         fe.append(pre+"_"+next)
 
-    fe.append(NEXT_WORD)
-    fe.append(NEXT_NEXT_WORD)
+    for i, pre in enumerate(pos_window[int(len(pos_window) / 2):]):
+        for next in pos_window[int(len(pos_window) / 2) + i + 1:]:
+            fe.append(pre + "_" + next)
 
-    fe.append(PREVIOUS_WORD_POS)
-    fe.append(PREVIOUS_TWO_WORD_POS)
-
-    one_and_two_words_before = PREVIOUS_WORD_POS + "_" + PREVIOUS_TWO_WORD_POS
-    one_and_two_words_next = NEXT_WORD + "_" + PREVIOUS_TWO_WORD_POS
-    fe.append(one_and_two_words_before)
-    # fe.append(one_and_two_words_next)
-
-    pos_sequence = smaller_than_pos_list[:one_before_person]
-    fe.append('_'.join(pos_sequence))
+    # pos_sequence = pos_list[:one_before_person]
+    # fe.append('_'.join(pos_sequence))
 
     less_d = less_detailed_than_pos[:one_before_person]
     fe.append('_'.join(less_d))
@@ -241,13 +235,13 @@ tag Dependency_connection_YES_NO DISTANCE_BETWEEN_WORDS_BY_dependency(if_not_con
 '''
 
 
-def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_proccesed_data):
-    # tag Dependency_connection_YES_NO DISTANCE_BETWEEN_WORDS_BY_dependency(if_not_connected_then_999) DISTANCE_BETWEEN_WORDS_BY_INDEX    PERSON_WORD NUMBER_OF_NN_BEFORE_PERSON NUMBER_OF_POS_BEFORE_PERSON DEPENDENCY_TO_ROOT LOCATION_WORD NUMBER_OF_POS_BEFORE_PERSON DEPENDENCY_TO_ROOT
+# features =  Dependency_connection_YES_NO , DISTANCE_BETWEEN_WORDS_BY_dependency, lemma form of words in a window size three, less_detailed_than_pos[:one_before_person] ,
+def extract_feature(per, loc, route_to_root, ner_dict, this_sentence_proccesed_data):
     pos_list = [t[3] for t in this_sentence_proccesed_data]
     less_detailed_than_pos_with_index = [(t[4], t[0]) for t in this_sentence_proccesed_data]
     less_detailed_than_pos = [t[4] for t in this_sentence_proccesed_data]
     fe = []
-    dis, route, pos_route, inbetween_person,inbetween_loc,had_special_prop = find_length_route(per, loc, route_to_root, this_sentence_proccesed_data)
+    dis, route, pos_route, inbetween_person, inbetween_loc = find_length_route(per, loc,route_to_root,this_sentence_proccesed_data)
     verbs_between, len_verbs = extract_verbs_between_args(this_sentence_proccesed_data, per, loc,
                                                           less_detailed_than_pos_with_index)
     Dependency_connection_YES_NO = "Yes" if dis < 100 else "No"
@@ -259,7 +253,7 @@ def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_procce
 
     fe.extend(fe_per_word)
 
-    counter_smaller_than_pos = Counter(pos_list[:one_before_per])
+    counter_smaller_than_pos = Counter(pos_list)
     for i in set_of_tags:
         fe.append(counter_smaller_than_pos[i])
     #
@@ -268,7 +262,9 @@ def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_procce
     fe.append(inbetween_person)
     fe.append(inbetween_loc)
 
-    # fe.append(len_verbs)
+    all_verbs = sorted(
+        [t[2] for t in this_sentence_proccesed_data if t[4] == "VERB"])  # item[4] for item in items if item[2]
+    fe.append("_".join(all_verbs))
     #
     fe_per_word, one_before_loc = feature_per_word(loc, this_sentence_proccesed_data, pos_list, less_detailed_than_pos)
 
@@ -283,9 +279,12 @@ def extract_feature(per, loc, route_to_root, ner_locations, this_sentence_procce
     DISTANCE_BETWEEN_WORDS_BY_INDEX = abs(one_before_loc - one_before_per)
     fe.append(DISTANCE_BETWEEN_WORDS_BY_INDEX)
 
-    counter_smaller_than_pos = Counter(pos_list[:one_before_loc])
+    counter_smaller_than_pos = Counter(pos_list)
     for i in set_of_tags:
         fe.append(counter_smaller_than_pos[i])
+
+    # fe.append(len(ner_dict[0]))
+    # fe.append(len(ner_dict[1]))
 
     return fe
 
@@ -296,7 +295,7 @@ def get_tags_from_annotations(file_name_with_annotations="data/TRAIN.annotations
         for line in f:
             line = line.split("\t")
             sen_num = line[0]
-            if "Live_In" in line:
+            if relation in line:
                 per = line[1]
                 loc = line[3]
             else:
@@ -365,7 +364,7 @@ def stanford_extract_ner_from_sen(sen):
     return r
 
 
-def combine_two_sentences(first, second,this_sentence_proccesed_data):
+def combine_two_sentences(first, second, this_sentence_proccesed_data):
     assert len(first) == len(second)
     for i in range(len(first)):
         first_tuple = first[i]
@@ -374,12 +373,12 @@ def combine_two_sentences(first, second,this_sentence_proccesed_data):
         if first_tuple[1] != second_tuple[1]:
             if first_tuple[1] == 'O':
                 first[i] = second[i]
-            if first[i][1] == "ORG": #<class 'tuple'>: ('Justice Department', 'ORGANIZATION', 29)
-                first[i] = (first[i][0],"ORGANIZATION")
+            if first[i][1] == "ORG":  # <class 'tuple'>: ('Justice Department', 'ORGANIZATION', 29)
+                first[i] = (first[i][0], "ORGANIZATION")
         if first_tuple[1] == person and i > 0 and first[i - 1][0] in Mr_Mrs:
-            first[i - 1] = (first[i - 1][0],person)
+            first[i - 1] = (first[i - 1][0], person)
         if first_tuple[1] == location and i > 0 and this_sentence_proccesed_data[i - 1][3] in DT_SET:
-            first[i - 1] = (first[i - 1][0],'O')
+            first[i - 1] = (first[i - 1][0], 'O')
 
         # if first_tuple[1] == location and i < len(first) -1 and this_sentence_proccesed_data[i + 1][4] == "NOUN":
         #     first[i + 1] = (first[i + 1][0],location)
@@ -455,7 +454,6 @@ def convert_to_text(tag, feature):
 
 
 def save_to_file(var, file_name):
-    print(var)
     with open(file_name, 'wb') as handle:
         pickle.dump(var, handle, protocol=pickle.HIGHEST_PROTOCOL)
 

@@ -50,6 +50,7 @@ def generate_vector(input_file_name):
     for line_number, line in enumerate(f):
         all_lines.append(line_to_feature_str(line,feature_map))
 
+
     all_lines[-1] = all_lines[-1][:-1]
     return all_lines
 

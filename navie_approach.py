@@ -62,12 +62,12 @@ def extract_ner(sen):
 def check_person_and_location(all_ner):
     dict_ner = {}
     for ele in all_ner:
-        if ele[1] == PERSON:
-            dict_ner[PERSON] = dict_ner.get(PERSON, list())
-            dict_ner[PERSON].append((ele[0], ele[2]))
-        elif ele[1] == LOCATION:
-            dict_ner[LOCATION] = dict_ner.get(LOCATION, list())
-            dict_ner[LOCATION].append((ele[0], ele[2]))
+        if ele[1] == person:
+            dict_ner[person] = dict_ner.get(person, list())
+            dict_ner[person].append((ele[0], ele[2]))
+        elif ele[1] == location:
+            dict_ner[location] = dict_ner.get(location, list())
+            dict_ner[location].append((ele[0], ele[2]))
 
     return dict_ner
 
@@ -97,8 +97,8 @@ def combine_two_sentences(first,second):
         if first_tuple[1] != second_tuple[1]:
             if first_tuple[1] == 'O':
                 first[i] = second[i]
-        if first_tuple[1] == LOCATION and i > 0 and first[i - 1][0] in Mr_Mrs:
-            first[i - 1][1] = LOCATION
+        if first_tuple[1] == location and i > 0 and first[i - 1][0] in Mr_Mrs:
+            first[i - 1][1] = location
     return first
 
 
@@ -229,12 +229,14 @@ def main():
             line = line.split("\t")
             sen_num = line[0]
             route_to_root = word_to_route[sen_num]
-            sen = tokens_sentences[sen_num]
-            stanford = all_stanford_text[sen_num]
-            stanford = stanford_extract_ner_from_sen(sen)
-            all_stanford_text[sen_num] = stanford
+            #sen = tokens_sentences[sen_num]
+            #stanford = all_stanford_text[sen_num]
+            #stanford = stanford_extract_ner_from_sen(sen)
+            #all_stanford_text[sen_num] = stanford
+            #stanford = all_stanford_text[sen_num]
             combine_processed_and_stanford = combine_two_sentences(stanford.copy(),processed_dict[sen_num])
-            combined_dict[sen_num] = combine_processed_and_stanford
+            # combine_processed_and_stanford = processed_dict[sen_num]
+            #combined_dict[sen_num] = combine_processed_and_stanford
 
             ners = extract_ner(combine_processed_and_stanford)
             ner_dict = check_person_and_location(ners)
@@ -249,30 +251,28 @@ def main():
             #     ner_dict = check_person_and_location(ners)
             #     print(1)
 
-            if not (PERSON in ner_dict and LOCATION in ner_dict):
+            if not (person in ner_dict and location in ner_dict):
                 continue
 
 
-            possiable_persons, possiable_location = unique_person_and_location(ner_dict[PERSON], ner_dict[LOCATION])
+            possiable_persons, possiable_location = unique_person_and_location(ner_dict[person], ner_dict[location])
             for per in possiable_persons:
                 person_appread_in = per[1]
                 # loc = find_closest_location(ner_dict[location],person_appread_in)
                 for loc in possiable_location:
-                    distance = find_route_to_root(per, loc, route_to_root)
-                    if distance < 7:
                 #     loc_appread_in = loc[1]
                     # if (len(ner_dict[person]) == 1 and len(ner_dict[location]) == 1):
                 # if abs(loc_appread_in - person_appread_in) < 1500:
-                        text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
-                        save_all_text.append(text_line)
+                    text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
+                    save_all_text.append(text_line)
 
-    write_to_file("save_output.txt", save_all_text)
-    save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
+    write_to_file("naive_save_output.txt", save_all_text)
+    #save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
 
-    save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
+    #save_to_file(all_sentence_ner_dict, file_name_for_all_ner)
     # save_to_file(all_stanford_text,stanford_ner_pickle)
     #save_to_file(combined_dict,combind_sentences_pickle)
-    evaluate_result.main()
+    evaluate_result.main("naive_save_output.txt","data/TRAIN.annotations")
 
 if __name__ == '__main__':
    main()

@@ -78,11 +78,8 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
     with open(clean_input_file_name) as f:
         all_sentence_ner_dict = {}
         for i, line in enumerate(f):
-            print(i)
             line = line.split("\t")
             sen_num = line[0]
-            if sen_num == "sent3152":
-                print()
             route_to_root = word_to_route[sen_num]
             this_sentence = all_sentence_data[sen_num]
             sen = [k[1] for k in this_sentence]
@@ -108,8 +105,7 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
             possiable_persons, possiable_location = unique_person_and_location(ner_dict[person], ner_dict[location])
             for per in possiable_persons:
                 for loc in possiable_location:
-                    feature = extract_feature(per, loc, route_to_root, combine_processed_and_stanford,
-                                              this_sentence_proccesed_data)
+                    feature = extract_feature(per, loc, route_to_root, [possiable_persons, possiable_location],this_sentence_proccesed_data)
                     # feature.append((len(possiable_persons))*len(possiable_location)==1)
 
                     # feature.append((len(possiable_persons)))
@@ -120,9 +116,6 @@ def find_answer(clean_input_file_name,proccessed_input_file_name, output_file_na
                     if pred: #or len(possiable_persons)*len(possiable_location)==1:
                         text_line = text + per[0] + "\tLive_In\t" + loc[0] + "\n"
                         save_all_text.append(text_line)
-
-    print(len(set(outside)))
-    print(set(outside))
 
     write_to_file(output_file_name, save_all_text)
     save_to_file(all_stanford_text,DEV_STANFORD_NER )

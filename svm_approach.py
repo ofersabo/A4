@@ -1,38 +1,18 @@
-import pickle
-from nltk.tag.stanford import StanfordNERTagger
 import evaluate_result
 from utils import *
 import ConvertFeatures
 import TrainSolver
 import Predict
 
-st = StanfordNERTagger(
-    '/Users/ofersabo/PycharmProjects/NLP_A4/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz',
-    '/Users/ofersabo/PycharmProjects/NLP_A4/stanford-ner-2018-10-16/stanford-ner.jar')
-
 save_feature_here = "memm-features"
 file_name = "data/Corpus.TRAIN.txt"
 dev_ann = "data/TRAIN.annotations"
 processed_file_name = "data/Corpus.TRAIN.processed"
-person = 'PERSON'
-location = 'LOCATION'
 file_name_for_all_ner = "all_ner_file_dict.pickle"
 stanford_ner_pickle = "stnaford_ner.pickle"
 combind_sentences_pickle = "combined_dict.pickle"
 Mr_Mrs = set(['Mrs.', 'Ms.'])
-
-
-def save_to_file(var, file_name):
-    print(var)
-    with open(file_name, 'wb') as handle:
-        pickle.dump(var, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-
-def load_from_file(file_name):
-    with open(file_name, 'rb') as f:
-        var = pickle.load(f)
-    return var
-
+DEBUG = False
 
 def convert_sentences_to_tokens(file_name):
     sentences = {}
@@ -95,11 +75,6 @@ def tupple_to_file(file_name, list_of_tupples):
                 f.write(sr)
 
 
-def stanford_extract_ner_from_sen(sen):
-    r = st.tag(sen)
-    return r
-
-
 def find_closest_location(all_location, person_location):
     for i, loc in enumerate(all_location):
         location_index = loc[1]
@@ -110,72 +85,67 @@ def find_closest_location(all_location, person_location):
 
 
 def main():
+    load_from_pickle =True
     correct_annotations = get_tags_from_annotations(dev_ann)
-    combined_dict = load_from_file(combind_sentences_pickle)
+    if (load_from_pickle):
+        all_stanford_text = load_from_file(stanford_ner_pickle)
+    else:
+        all_stanford_text = {}
+
     tokens_sentences = convert_sentences_to_tokens(processed_file_name)
     processed_dict = processed_text_to_dict(processed_file_name)
-    all_stanford_text = {}
     all_txt = []
-    false_line= []
+    false_line = []
     fal = pos = 0
     word_to_route, all_sentence_data = get_path_from_word(processed_file_name)
     with open(file_name) as f:
-        save_all_text = []
-        all_sentence_ner_dict = {}
-        all_sentence_ner_dict = load_from_file(file_name_for_all_ner)
-        all_stanford_text = load_from_file(stanford_ner_pickle)
         for i, line in enumerate(f):
-            print(i)
             line = line.split("\t")
             sen_num = line[0]
             route_to_root = word_to_route[sen_num]
-            # sen = tokens_sentences[sen_num]
-            stanford = all_stanford_text[sen_num]
-            # stanford = stanford_extract_ner_from_sen(sen)
-            # all_stanford_text[sen_num] = stanford
+            if (load_from_pickle):
+                stanford = all_stanford_text[sen_num]
+            else:
+                sen = tokens_sentences[sen_num]
+                stanford = stanford_extract_ner_from_sen(sen)
+                all_stanford_text[sen_num] = stanford
+
             this_sentence_proccesed_data = all_sentence_data[sen_num]
             combine_processed_and_stanford = combine_two_sentences(stanford.copy(), processed_dict[sen_num],this_sentence_proccesed_data)
-            combined_dict[sen_num] = combine_processed_and_stanford
-
-
 
             ners = extract_ner(combine_processed_and_stanford)
-            ner_dict = check_person_and_location(ners)
-            all_sentence_ner_dict[sen_num] = ner_dict
+            person_location_ner = check_person_and_location(ners)
 
-            text = sen_num + "\t"
-            ner_dict = all_sentence_ner_dict[line[0]]
-
-            if not (person in ner_dict and location in ner_dict):
+            if not (person in person_location_ner and location in person_location_ner):
                 continue
-
-            possiable_persons, possiable_location = unique_person_and_location(ner_dict[person], ner_dict[location])
+            possiable_persons, possiable_location = unique_person_and_location(person_location_ner[person], person_location_ner[location])
             for per in possiable_persons:
                 for loc in possiable_location:
-                    feature = extract_feature(per, loc, route_to_root, combine_processed_and_stanford,
-                                              this_sentence_proccesed_data)
-                    # feature.append((len(possiable_persons))*len(possiable_location)==1)
-                    # feature.append((len(possiable_location)))
+                    feature = extract_feature(per, loc, route_to_root, [possiable_persons, possiable_location],this_sentence_proccesed_data)
                     true_or_not = tupple_in_annotion(per, loc, correct_annotations[sen_num])
-                    if (len(possiable_persons)*len(possiable_location)==1):
-                        fal +=  true_or_not == 0
-                        pos +=  true_or_not == 1
-                        print(sen_num)
+                    if (DEBUG and len(possiable_persons) * len(possiable_location) == 1):
+                        fal += true_or_not == 0
+                        pos += true_or_not == 1
+                        # print(sen_num)
                         if (not true_or_not):
                             false_line.append(line)
                     txt = convert_to_text(true_or_not, feature)
                     all_txt.append(txt)
-    print("pos ",pos)
-    print("fal ",fal)
-    for p in false_line:
-        print(p)
+    if (DEBUG):
+        print("pos ", pos)
+        print("fal ", fal)
+        for p in false_line:
+            print(p)
+
     write_to_file(save_feature_here, all_txt)
     features_vec_file, features_map_file = ConvertFeatures.main(save_feature_here)
     model_file = TrainSolver.main(features_vec_file)
     output_file_name = "SVM_OUTPUT.txt"
     clean_input_file_name = "data/Corpus.DEV.txt"
-    Predict.main(clean_input_file_name=clean_input_file_name,model_filename=model_file, feature_map_filename=features_map_file, output_file_name=output_file_name)
-    evaluate_result.main(output_file_name,"data/DEV.annotations")
+    Predict.main(clean_input_file_name=clean_input_file_name, model_filename=model_file,
+                 feature_map_filename=features_map_file, output_file_name=output_file_name)
+    evaluate_result.main(output_file_name, "data/DEV.annotations")
+
 
 if __name__ == '__main__':
     main()

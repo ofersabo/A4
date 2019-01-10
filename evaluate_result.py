@@ -13,11 +13,12 @@ def remove_dot(st):
     return st
 
 def gold_file(gold_file_name = "data/TRAIN.annotations"):
+    from utils import relation
     sentnce_to_relation = {}
     gold_items = set()
     with open(gold_file_name) as f:
         for line in f:
-            if "Live_In" in line:
+            if relation in line:
                 line = line.split("\t")
                 sen_num = line[0]
                 per = line[1]
@@ -66,7 +67,7 @@ def read_pred(pred_file_name,sentnce_to_relation):
 
     return good,bad,pred_set
 
-def main(pred_file_name = "save_output.txt",golden_file_name ="data/TRAIN.annotations" ):
+def main(pred_file_name = "save_output.txt",golden_file_name ="data/DEV.annotations" ):
     # gold_file_name = "data/TRAIN.annotations"
     sentnce_to_relation, gold_items = gold_file(golden_file_name)
     good, bad, pred_set = read_pred(pred_file_name,sentnce_to_relation)
