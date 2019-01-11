@@ -15,6 +15,7 @@ set_of_tags = ['PROPN', 'PRON', 'NOUN']
 Mr_Mrs = set(['Mrs.', 'Ms.'])
 load_from_pickle =True
 live_in = True
+DEBUG_RESULT = False
 person = 'PERSON'
 if live_in:
     location = 'LOCATION'

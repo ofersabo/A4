@@ -148,7 +148,7 @@ def main():
                             false_line.append(line)
                     txt = convert_to_text(true_or_not, feature)
                     all_txt.append(txt)
-    if (DEBUG):
+    if (DEBUG_RESULT):
         print("pos ", pos)
         print("fal ", fal)
         for p in false_line:

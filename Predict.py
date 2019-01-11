@@ -9,7 +9,7 @@ import scipy
 DEV_STANFORD_NER = "DEV_STANFORD_NER"
 model = None
 
-DEBUG_RESULT = False
+
 feature_dict = {}
 
 
