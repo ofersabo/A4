@@ -8,9 +8,11 @@ If you want to run it on a different test file you must install the stanford tag
 our code run as follows.
 python Predict.py clean_input_file_name input_processed_file_name gold_annotation
 
-We used a trained SVM model, therefore we use two addtional files.
+We trained a SVM model which produced two required files.
 saved_model_short and feature_map_file.txt that should be located in the same directory as the Predict file.
 
-which is saved in the save_model_short file. Please verify that it is in the same directory as the Predict file.
+Running example:
+python Predict.py data/Corpus.DEV.txt data/Corpus.DEV.processed data/DEV.annotations
 
-If you intended to run the code on the DEV file you can use a pickle file that saved the stanford tagging.  Please install it id you want to run the full code.
+Predict file also include a pointer to the evaluate result file, so immediately after the prediction the program evaluate the results.
+

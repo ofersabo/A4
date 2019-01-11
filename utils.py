@@ -13,7 +13,7 @@ POS_OF_START = "!!!!START!!!"
 POS_OF_END = "!!!!END!!!"
 set_of_tags = ['PROPN', 'PRON', 'NOUN']
 Mr_Mrs = set(['Mrs.', 'Ms.'])
-load_from_pickle =False
+load_from_pickle =True
 live_in = True
 person = 'PERSON'
 if live_in:

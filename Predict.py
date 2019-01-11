@@ -7,15 +7,10 @@ from codecs import open
 import scipy
 
 DEV_STANFORD_NER = "DEV_STANFORD_NER"
-all_states = set()
-skip_start = 0
-end_early = -1
 model = None
 
 DEBUG_RESULT = False
 feature_dict = {}
-all_tags_dict = {}
-index_to_tag = {}
 
 
 def build_matrix(feature_index, num_feature):
@@ -92,6 +87,8 @@ def find_answer(clean_input_file_name, proccessed_input_file_name, output_file_n
             all_sentence_ner_dict[sen_num] = ners
 
             text = sen_num + "\t"
+            if sen_num == "sent1908":
+                print()
             # ner_dict = all_sentence_ner_dict[sen_num]
 
             if not (person in ner_dict and location in ner_dict):
